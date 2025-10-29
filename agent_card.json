@@ -1,0 +1,214 @@
+{
+  "$schema": "https://schema.org/Agent",
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Flight Agent",
+  "alternateName": "Flight_Agent",
+  "version": "0.1.0",
+  "description": "Expert flight search assistant providing real-time flight information, price comparisons, and booking recommendations through natural language conversation. Powered by Google ADK with MCP server integration for Google Flights data.",
+  "applicationCategory": "TravelAssistant",
+  "operatingSystem": "Google Cloud Run",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "Flight Agent",
+    "url": "https://github.com/bhanuprakashd/Flight_Agent"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Flight Agent Team"
+  },
+  "license": "Apache-2.0",
+  "datePublished": "2025-10-29",
+  "dateModified": "2025-10-29",
+  "url": "https://github.com/bhanuprakashd/Flight_Agent",
+  "codeRepository": "https://github.com/bhanuprakashd/Flight_Agent.git",
+  "programmingLanguage": "Python",
+  "runtimePlatform": "Google Cloud Run",
+  "softwareVersion": "0.1.0",
+  "capabilities": {
+    "tools": [
+      {
+        "name": "greeting",
+        "description": "Tool to greet user and provide capabilities overview",
+        "type": "function"
+      },
+      {
+        "name": "get_flights_on_date",
+        "description": "Search for one-way flights on a specific date",
+        "type": "MCP",
+        "mcpServer": "Google-Flights-MCP-Server",
+        "parameters": {
+          "origin": "string (airport code or city name)",
+          "destination": "string (airport code or city name)",
+          "date": "string (YYYY-MM-DD format)",
+          "seat_type": "string (economy, business, first)",
+          "passengers": "object (adults, children, infants)"
+        }
+      },
+      {
+        "name": "get_round_trip_flights",
+        "description": "Search for round-trip flights with departure and return dates",
+        "type": "MCP",
+        "mcpServer": "Google-Flights-MCP-Server",
+        "parameters": {
+          "origin": "string (airport code or city name)",
+          "destination": "string (airport code or city name)",
+          "departure_date": "string (YYYY-MM-DD format)",
+          "return_date": "string (YYYY-MM-DD format)",
+          "seat_type": "string (economy, business, first)",
+          "passengers": "object (adults, children, infants)"
+        }
+      },
+      {
+        "name": "find_all_flights_in_range",
+        "description": "Search for flights within a date range",
+        "type": "MCP",
+        "mcpServer": "Google-Flights-MCP-Server",
+        "parameters": {
+          "origin": "string (airport code or city name)",
+          "destination": "string (airport code or city name)",
+          "start_date": "string (YYYY-MM-DD format)",
+          "end_date": "string (YYYY-MM-DD format)",
+          "seat_type": "string (economy, business, first)",
+          "passengers": "object (adults, children, infants)"
+        }
+      }
+    ],
+    "features": [
+      "Real-time flight search",
+      "Price comparison",
+      "Date range search",
+      "Natural language conversation",
+      "Round-trip flight search",
+      "One-way flight search",
+      "Cheapest flight finder",
+      "Flight recommendations"
+    ]
+  },
+  "endpoints": {
+    "dev-ui": "https://YOUR_SERVICE_URL/dev-ui/",
+    "api-docs": "https://YOUR_SERVICE_URL/docs",
+    "api": "https://YOUR_SERVICE_URL/",
+    "health": "https://YOUR_SERVICE_URL/health"
+  },
+  "configuration": {
+    "required": {
+      "GOOGLE_API_KEY": {
+        "description": "Google AI API key for Vertex AI access",
+        "type": "string",
+        "secret": true
+      },
+      "GOOGLE_CLOUD_PROJECT": {
+        "description": "Google Cloud Project ID",
+        "type": "string"
+      },
+      "GOOGLE_CLOUD_LOCATION": {
+        "description": "Google Cloud region (default: us-central1)",
+        "type": "string",
+        "default": "us-central1"
+      }
+    },
+    "optional": {
+      "LOG_LEVEL": {
+        "description": "Logging level (default: INFO)",
+        "type": "string",
+        "default": "INFO"
+      },
+      "MCP_TIMEOUT": {
+        "description": "MCP server timeout in seconds (default: 360)",
+        "type": "integer",
+        "default": 360
+      }
+    }
+  },
+  "dependencies": {
+    "python": ">=3.10,<3.14",
+    "packages": [
+      "google-adk>=1.15.0,<2.0.0",
+      "mcp>=1.2.0",
+      "primp",
+      "protobuf",
+      "selectolax",
+      "playwright",
+      "nest-asyncio>=1.6.0,<2.0.0",
+      "vertexai>=1.118.0,<2.0.0",
+      "fastapi~=0.115.8",
+      "uvicorn~=0.34.0"
+    ]
+  },
+  "deployment": {
+    "platform": "Google Cloud Run",
+    "region": "us-central1",
+    "memory": "4Gi",
+    "cpu": "2",
+    "timeout": "360s",
+    "authentication": "public",
+    "scaling": {
+      "minInstances": 0,
+      "maxInstances": 100
+    }
+  },
+  "model": {
+    "provider": "Google Vertex AI",
+    "model": "gemini-2.5-flash",
+    "temperature": 0.1,
+    "maxTokens": 8192
+  },
+  "mcp": {
+    "enabled": true,
+    "servers": [
+      {
+        "name": "Google-Flights-MCP-Server",
+        "type": "stdio",
+        "command": "python",
+        "args": ["Google-Flights-MCP-Server/server.py"],
+        "timeout": 360
+      }
+    ]
+  },
+  "documentation": {
+    "readme": "https://github.com/bhanuprakashd/Flight_Agent/blob/main/README.md",
+    "deployment": "https://github.com/bhanuprakashd/Flight_Agent/blob/main/COMPLETE_DEPLOYMENT_GUIDE.md",
+    "testing": "https://github.com/bhanuprakashd/Flight_Agent/blob/main/TESTING_GUIDE.md",
+    "security": "https://github.com/bhanuprakashd/Flight_Agent/blob/main/SECURITY.md"
+  },
+  "keywords": [
+    "flight-search",
+    "travel-assistant",
+    "google-flights",
+    "mcp",
+    "vertex-ai",
+    "agent-development-kit",
+    "adk",
+    "cloud-run"
+  ],
+  "category": "Travel & Transportation",
+  "interactionMode": "conversational",
+  "language": "en",
+  "support": {
+    "repository": "https://github.com/bhanuprakashd/Flight_Agent/issues",
+    "documentation": "https://github.com/bhanuprakashd/Flight_Agent"
+  },
+  "agentToAgent": {
+    "protocol": "A2A",
+    "version": "1.0",
+    "discovery": {
+      "enabled": true,
+      "method": "registry"
+    },
+    "communication": {
+      "protocols": ["HTTP", "HTTPS"],
+      "formats": ["JSON"]
+    },
+    "capabilities": {
+      "canCall": true,
+      "canBeCalled": true,
+      "requiresAuth": false
+    }
+  }
+}
