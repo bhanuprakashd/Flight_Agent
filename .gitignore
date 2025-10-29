@@ -58,3 +58,8 @@ Google-Flights-MCP-Server/**/__pycache__/
 *.tmp
 *.bak
 *.swp
+# Add to .gitignore
+.env
+.env.local
+.env.*.local
+*.env

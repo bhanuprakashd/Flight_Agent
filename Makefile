@@ -47,7 +47,7 @@ deploy:
 		--no-cpu-throttling \
 		--labels "created-by=adk" \
 		--set-env-vars \
-		"COMMIT_SHA=$(shell git rev-parse HEAD 2>/dev/null || echo 'not-a-git-repo'),GOOGLE_API_KEY=AIzaSyD-2g7JgLvtMiYGkrhuBoXRwn-h1P7Df9k,GOOGLE_CLOUD_PROJECT=rajesh-more-cwx-internal,GOOGLE_CLOUD_LOCATION=us-central1" \
+		"COMMIT_SHA=$(shell git rev-parse HEAD 2>/dev/null || echo 'not-a-git-repo'),GOOGLE_API_KEY=$$GOOGLE_API_KEY,GOOGLE_CLOUD_PROJECT=$$PROJECT_ID,GOOGLE_CLOUD_LOCATION=us-central1" \
 		$(if $(IAP),--iap) \
 		$(if $(PORT),--port=$(PORT))
 
