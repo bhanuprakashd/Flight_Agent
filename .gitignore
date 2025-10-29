@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+.env.local
+
+# Google Cloud
+*.json
+!package.json
+!tsconfig.json
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/
+
+# MCP Server dependencies (if copied locally)
+# Keep Google-Flights-MCP-Server directory but ignore large files
+Google-Flights-MCP-Server/fast_flights/__pycache__/
+Google-Flights-MCP-Server/**/__pycache__/
+
+# Lock files (optional - you may want to commit uv.lock)
+# uv.lock
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
