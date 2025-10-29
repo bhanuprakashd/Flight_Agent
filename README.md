@@ -1,97 +1,191 @@
-# Flight Agent with Google Flights MCP Server
+# Flight Agent
 
-A sophisticated flight search agent powered by Google ADK (Agent Development Kit) and integrated with the Google Flights MCP Server.
+A flight search assistant powered by Google's Agent Development Kit (ADK) with MCP server integration for real-time flight data.
 
-## Features
+## About Agent-Starter-Pack
 
-- ✈️ Real-time flight search using Google Flights data
-- 🔍 One-way and round-trip flight searches
-- 💰 Price comparison and cheapest flight finder
-- 📅 Date range search capabilities
-- 🗣️ Natural language conversation interface
-- 🤖 Powered by Gemini 2.5 Flash model
+This project is built using [Google's Agent Development Kit (ADK) Starter Pack](https://github.com/GoogleCloudPlatform/agent-starter-pack), which provides:
 
-## Requirements
+### 🚀 **Rapid Development Framework**
+- **Pre-configured infrastructure**: Terraform configurations for Google Cloud
+- **CI/CD pipelines**: Automated deployment with Cloud Build
+- **Production-ready setup**: Monitoring, logging, and security built-in
+- **Best practices**: Following Google Cloud's recommended patterns
 
-- Python 3.8+
-- Google Cloud project (for Vertex AI)
-- Google Flights MCP Server configured
-- Required Python packages (see installation)
+### 🛠️ **Key Benefits of Agent-Starter-Pack**
 
-## Installation
+1. **Faster Time-to-Market**
+   - Skip weeks of infrastructure setup
+   - Focus on your agent's business logic
+   - Pre-built deployment pipelines
 
-1. **Install dependencies:**
-   ```bash
-   pip install google-adk vertexai mcp
-   ```
+2. **Production-Ready Architecture**
+   - Cloud Run for scalable deployment
+   - Vertex AI integration
+   - Cloud Logging and Monitoring
+   - IAM and security configurations
 
-2. **Set up environment variables:**
-   ```bash
-   export GOOGLE_API_KEY="your-api-key"
-   export GOOGLE_CLOUD_PROJECT="your-project-id"
-   export GOOGLE_CLOUD_LOCATION="us-central1"
-   ```
+3. **Developer Experience**
+   - Local development environment
+   - Hot-reload capabilities
+   - Comprehensive testing framework
+   - Documentation templates
 
-3. **Ensure Google Flights MCP Server is set up:**
-   - The MCP server should be located at `Google-Flights-MCP-Server/server.py`
-   - Make sure all dependencies are installed in the conda environment
+4. **Enterprise Features**
+   - Terraform infrastructure as code
+   - Multi-environment support (dev/staging/prod)
+   - Load testing integration
+   - Security scanning
 
-## Usage
+### 📁 **Starter Pack Structure**
 
-### Basic Usage
-
-```python
-from flight_agent.agent import root_agent
-
-# Process a flight request
-response = await root_agent.process("Find flights from San Francisco to New York on December 15th")
-print(response)
+```
+flight-agent/
+├── flight_agent/          # Your agent code
+├── deployment/            # Terraform infrastructure
+├── .cloudbuild/          # CI/CD pipelines
+├── tests/                # Testing framework
+├── notebooks/            # Development notebooks
+├── Dockerfile            # Container configuration
+├── Makefile             # Build and deploy commands
+└── pyproject.toml       # Dependencies and configuration
 ```
 
-### Running the Agent Engine
+## Flight Agent Features
 
-```python
-from flight_agent.agent import startup
+- **Real-time flight search** using Google Flights data via MCP server
+- **Natural language conversation** interface
+- **MCP (Model Context Protocol) integration** for external data sources
+- **Cloud Run deployment** with automatic scaling
+- **Vertex AI powered** responses with Gemini model
+- **Playwright integration** for web scraping capabilities
 
-# Start the agent engine
-app = startup()
+## Quick Start
+
+### Prerequisites
+- Google Cloud SDK
+- Python 3.10-3.13
+- Docker (for local testing)
+
+### 1. Clone and Setup
+```bash
+git clone https://github.com/bhanuprakashd/Flight_Agent.git
+cd Flight_Agent
 ```
 
-## Agent Capabilities
+### 2. Deploy to Cloud Run
+```bash
+# Set your GCP project
+gcloud config set project YOUR_PROJECT_ID
 
-The flight agent can handle:
+# Deploy
+make deploy
+```
 
-1. **One-way flights**: Search for flights on specific dates
-   - Example: "Find flights from SFO to JFK on December 15th"
+### 3. Access Your Agent
+- **Dev UI**: https://your-service-url/dev-ui/
+- **API Docs**: https://your-service-url/docs
 
-2. **Round-trip flights**: Search for return flights
-   - Example: "I need flights from LAX to NYC, departing December 20th and returning December 27th"
+## Documentation
 
-3. **Price comparison**: Compare multiple flight options
-   - Example: "What are the cheapest flights from Denver to Miami?"
+- **[Complete Deployment Guide](COMPLETE_DEPLOYMENT_GUIDE.md)** - Step-by-step setup from scratch
+- **[Testing Guide](TESTING_GUIDE.md)** - How to test and verify deployment
+- **[Quick Reference](QUICK_REFERENCE.sh)** - Essential commands
 
-4. **Date range searches**: Find flights within a date range
-   - Example: "Show me flights from Seattle to Boston between December 10th and 20th"
+## Architecture
 
-## Configuration
+### Agent-Starter-Pack Components
 
-Edit `config.py` to customize:
-- Model settings (temperature, model name)
-- MCP timeout settings
-- Logging levels
-- Google Cloud project settings
+| Component | Purpose | Technology |
+|-----------|---------|------------|
+| **Agent Engine** | Core agent logic | Google ADK |
+| **MCP Server** | External data integration | Model Context Protocol |
+| **Web Interface** | User interaction | FastAPI + Dev UI |
+| **Infrastructure** | Cloud deployment | Terraform + Cloud Run |
+| **CI/CD** | Automated deployment | Cloud Build |
+| **Monitoring** | Observability | Cloud Logging + Tracing |
 
-## MCP Server Integration
+### MCP Integration
 
-The agent connects to the Google Flights MCP Server via stdio transport. The server provides three main tools:
+This agent extends the starter pack with:
+- **Google Flights MCP Server** for real-time flight data
+- **Playwright integration** for web scraping
+- **Custom flight search tools** via MCP protocol
 
-1. `get_flights_on_date` - One-way flight search
-2. `get_round_trip_flights` - Round-trip flight search
-3. `find_all_flights_in_range` - Date range search
+## Development
 
-## Notes
+### Local Development
+```bash
+# Install dependencies
+make install
 
-- The agent automatically formats flight results into readable tables
-- Past dates are automatically converted to future dates
-- Airport codes are automatically converted from city names
-- All responses are in natural language - no raw JSON or tool calls shown to users
+# Run locally
+make local-backend
+
+# Access at http://localhost:8000
+```
+
+### Testing
+```bash
+# Run tests
+make test
+
+# Code quality checks
+make lint
+```
+
+## Deployment
+
+The agent-starter-pack provides multiple deployment options:
+
+### 1. Quick Deploy (Recommended)
+```bash
+make deploy
+```
+
+### 2. CI/CD Pipeline
+```bash
+# Trigger Cloud Build
+gcloud builds submit --config .cloudbuild/staging.yaml
+```
+
+### 3. Infrastructure Setup
+```bash
+# Set up development environment
+make setup-dev-env
+```
+
+## Why Agent-Starter-Pack?
+
+### Without Starter Pack
+- ❌ Weeks of infrastructure setup
+- ❌ Manual CI/CD configuration
+- ❌ Security and monitoring setup
+- ❌ Deployment complexity
+- ❌ No standardized patterns
+
+### With Agent-Starter-Pack
+- ✅ **Minutes to deploy** instead of weeks
+- ✅ **Production-ready** from day one
+- ✅ **Best practices** built-in
+- ✅ **Scalable architecture** out of the box
+- ✅ **Focus on your agent** not infrastructure
+
+## Contributing
+
+This project follows agent-starter-pack conventions:
+- Use the provided testing framework
+- Follow the established CI/CD patterns
+- Maintain infrastructure as code with Terraform
+- Document changes in the deployment guide
+
+## Learn More
+
+- [Agent Development Kit Documentation](https://googlecloudplatform.github.io/agent-starter-pack/)
+- [Google Cloud AI Platform](https://cloud.google.com/vertex-ai)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+- [Agent Starter Pack Repository](https://github.com/GoogleCloudPlatform/agent-starter-pack)
+
+## License
+
+This project is built on the agent-starter-pack framework and follows Google Cloud's open source guidelines.
